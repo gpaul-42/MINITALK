@@ -6,7 +6,7 @@
 /*   By: gpaul <gpaul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 14:13:09 by gpaul             #+#    #+#             */
-/*   Updated: 2021/08/22 16:01:08 by gpaul            ###   ########.fr       */
+/*   Updated: 2021/08/22 16:55:08 by gpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static void	handler(int signum)
 		if (check_char(cpy) == 127 || n == 99)
 		{
 			write(1, buffer, n);
-			ft_memset(buffer, '\0', 99);
+			ft_memset(buffer, '\0', 100);
 			n = 0;
 		}
 		buffer[n] = check_char(cpy);
 		n++;
 		i = 0;
-		ft_memset(cpy, '\0', 7);
+		ft_memset(cpy, '\0', 8);
 	}
 }
 

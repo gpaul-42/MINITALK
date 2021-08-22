@@ -6,7 +6,7 @@
 /*   By: gpaul <gpaul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/21 02:40:43 by gpaul             #+#    #+#             */
-/*   Updated: 2021/08/22 16:00:58 by gpaul            ###   ########.fr       */
+/*   Updated: 2021/08/22 17:04:30 by gpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static int	send_ascii(pid_t pid, char c)
 	free(tmp);
 	i = 0;
 	if (ft_strlen(send) == 6)
+	{
 		kill(pid, SIGUSR2);
+		usleep(500);
+	}
 	while (send[i])
 	{
 		if (send[i] == '1')
