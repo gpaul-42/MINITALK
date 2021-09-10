@@ -6,28 +6,28 @@
 /*   By: gpaul <gpaul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/21 02:40:43 by gpaul             #+#    #+#             */
-/*   Updated: 2021/08/22 17:04:30 by gpaul            ###   ########.fr       */
+/*   Updated: 2021/09/10 03:08:04 by gpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/include.h"
 
-int received;
+int	g_received;
 
-static int wait_sig(void)
+static int	wait_sig(void)
 {
-	while (received == 0)
-		usleep(1);
-	if (received == 1)
-		received = 0;
+	while (g_received == 0)
+		usleep(10);
+	if (g_received == 1)
+		g_received = 0;
 	return (1);
 }
 
-static void handler(int signum)
+static void	handler(int signum)
 {
 	(void)signum;
 	ft_putstr_fd("signal received\n", 1);
-	received = 1;
+	g_received = 1;
 }
 
 static int	send_ascii(pid_t pid, char c)
@@ -73,15 +73,13 @@ static void	pre_send(pid_t pid, char *str)
 	while (i < 7)
 	{
 		kill(pid, SIGUSR1);
-		usleep(200);
+		wait_sig();
 		i++;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	ft_putnbr_fd(getpid(), 1);
-	ft_putchar_fd('\n', 1);
 	if (argc != 3)
 	{
 		ft_putstr_fd("The client need the pid and a string\n", 1);
