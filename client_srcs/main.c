@@ -12,6 +12,24 @@
 
 #include "../includes/include.h"
 
+int received;
+
+static int wait_sig(void)
+{
+	while (received == 0)
+		usleep(1);
+	if (received == 1)
+		received = 0;
+	return (1);
+}
+
+static void handler(int signum)
+{
+	(void)signum;
+	ft_putstr_fd("signal received\n", 1);
+	received = 1;
+}
+
 static int	send_ascii(pid_t pid, char c)
 {
 	char	*tmp;
@@ -25,7 +43,7 @@ static int	send_ascii(pid_t pid, char c)
 	if (ft_strlen(send) == 6)
 	{
 		kill(pid, SIGUSR2);
-		usleep(500);
+		wait_sig();
 	}
 	while (send[i])
 	{
@@ -33,8 +51,8 @@ static int	send_ascii(pid_t pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(500);
 		i++;
+		wait_sig();
 	}
 	free(send);
 	return (0);
@@ -47,6 +65,7 @@ static void	pre_send(pid_t pid, char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
+		signal(SIGUSR2, handler);
 		send_ascii(pid, str[i]);
 		i++;
 	}
@@ -54,13 +73,15 @@ static void	pre_send(pid_t pid, char *str)
 	while (i < 7)
 	{
 		kill(pid, SIGUSR1);
-		usleep(500);
+		usleep(200);
 		i++;
 	}
 }
 
 int	main(int argc, char **argv)
 {
+	ft_putnbr_fd(getpid(), 1);
+	ft_putchar_fd('\n', 1);
 	if (argc != 3)
 	{
 		ft_putstr_fd("The client need the pid and a string\n", 1);
