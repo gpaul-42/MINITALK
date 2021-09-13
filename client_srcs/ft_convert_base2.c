@@ -6,13 +6,13 @@
 /*   By: gpaul <gpaul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 07:58:37 by gpaul             #+#    #+#             */
-/*   Updated: 2021/08/22 16:03:48 by gpaul            ###   ########.fr       */
+/*   Updated: 2021/09/13 16:01:18 by gpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/include.h"
 
-static int	check_char (char c)
+static int	check_char(char c)
 {
 	if (c == '-' || c == '+' || c == '\t'
 		|| c == '\n' || c == '\v' || c == '\f'
