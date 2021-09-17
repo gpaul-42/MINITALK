@@ -20,7 +20,7 @@ static unsigned int	check_char(char *cpy)
 	tmp = ft_convert_base(cpy, "01", "0123456789");
 	check = (unsigned int)ft_atoi(tmp);
 	free(tmp);
-	if ((check >= 32 && check <= 127) || check == 10)
+	if ((check >= 32 && check <= 127) || check == 10 || check == 9)
 		return (check);
 	else
 		return (1);
@@ -65,6 +65,6 @@ int	main(void)
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (42)
-		usleep(5);
+		usleep(1);
 	return (0);
 }
