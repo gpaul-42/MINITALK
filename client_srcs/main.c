@@ -6,7 +6,7 @@
 /*   By: gpaul <gpaul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/21 02:40:43 by gpaul             #+#    #+#             */
-/*   Updated: 2021/09/10 03:08:04 by gpaul            ###   ########.fr       */
+/*   Updated: 2021/09/17 17:47:46 by gpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ static void	handler(int signum)
 	g_received = 1;
 }
 
+static void	send_zero(pid_t pid, char *send)
+{
+	int	i;
+
+	i = 0;
+	while (ft_strlen(send) + i < 7)
+	{
+		kill(pid, SIGUSR2);
+		wait_sig();
+		i++;
+	}
+}
+
 static int	send_ascii(pid_t pid, char c)
 {
 	char	*tmp;
@@ -40,13 +53,7 @@ static int	send_ascii(pid_t pid, char c)
 	send = ft_convert_base(tmp, "0123456789", "01");
 	free(tmp);
 	i = 0;
-	while (ft_strlen(send) + i < 7)
-	{
-		kill(pid, SIGUSR2);
-		wait_sig();
-		i++;
-	}
-	i = 0;
+	send_zero(pid, send);
 	while (send[i])
 	{
 		if (send[i] == '1')
@@ -60,34 +67,31 @@ static int	send_ascii(pid_t pid, char c)
 	return (0);
 }
 
-static void	pre_send(pid_t pid, char *str)
+int	main(int argc, char **argv)
 {
 	int	i;
 
 	i = 0;
-	signal(SIGUSR2, handler);
-	while (str[i] != '\0')
-	{
-		send_ascii(pid, str[i]);
-		i++;
-	}
-	i = 0;
-	while (i < 7)
-	{
-		kill(pid, SIGUSR1);
-		wait_sig();
-		i++;
-	}
-}
-
-int	main(int argc, char **argv)
-{
 	if (argc != 3)
 	{
 		ft_putstr_fd("The client need the pid and a string\n", 1);
 		exit(EXIT_FAILURE);
 	}
 	else
-		pre_send(atoi(argv[1]), argv[2]);
+	{
+		signal(SIGUSR2, handler);
+		while (argv[2][i] != '\0')
+		{
+			send_ascii(atoi(argv[1]), argv[2][i]);
+			i++;
+		}
+		i = 0;
+		while (i < 7)
+		{
+			kill(atoi(argv[1]), SIGUSR1);
+			wait_sig();
+			i++;
+		}
+	}
 	return (EXIT_SUCCESS);
 }

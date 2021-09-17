@@ -6,7 +6,7 @@
 /*   By: gpaul <gpaul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/22 14:13:09 by gpaul             #+#    #+#             */
-/*   Updated: 2021/09/10 03:00:55 by gpaul            ###   ########.fr       */
+/*   Updated: 2021/09/17 17:48:34 by gpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	handler(int signum, siginfo_t *info, void *ucontext)
 	static char			buffer[100];
 
 	(void) ucontext;
-	if (signum == 10 || signum == 30)
+	if (signum == SIGUSR1)
 		cpy[i++] = '1';
-	else if (signum == 12 || signum == 31)
+	else if (signum == SIGUSR2)
 		cpy[i++] = '0';
 	if (i == 7)
 	{
@@ -56,12 +56,6 @@ static void	handler(int signum, siginfo_t *info, void *ucontext)
 
 int	main(void)
 {
-
-
-	char c = 10;
-
-	write(1, &c, 1);
-
 	struct sigaction	sa;
 
 	ft_putnbr_fd(getpid(), 1);
