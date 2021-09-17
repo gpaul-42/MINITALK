@@ -53,3 +53,5 @@ fclean			:	clean
 					@rm -rf ${NAME_1} ${NAME_2}
 
 re				:	fclean all
+
+.PHONY			:	all clean fclean re

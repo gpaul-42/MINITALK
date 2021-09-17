@@ -40,11 +40,13 @@ static int	send_ascii(pid_t pid, char c)
 	send = ft_convert_base(tmp, "0123456789", "01");
 	free(tmp);
 	i = 0;
-	if (ft_strlen(send) == 6)
+	while (ft_strlen(send) + i < 7)
 	{
 		kill(pid, SIGUSR2);
 		wait_sig();
+		i++;
 	}
+	i = 0;
 	while (send[i])
 	{
 		if (send[i] == '1')
@@ -63,9 +65,9 @@ static void	pre_send(pid_t pid, char *str)
 	int	i;
 
 	i = 0;
+	signal(SIGUSR2, handler);
 	while (str[i] != '\0')
 	{
-		signal(SIGUSR2, handler);
 		send_ascii(pid, str[i]);
 		i++;
 	}
